@@ -21,3 +21,4 @@ if __name__ == "__main__":
 		if ic.memory[0] == 19690720: 
 			print("Memory[0] = 19690720 at i: %i, j: %i, 100*i+j = %i" % (i,j,100*i+j))
 			break
+			
