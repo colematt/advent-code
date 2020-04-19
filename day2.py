@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from intcode import *
+from intcode import Intcode
 import itertools
 
 if __name__ == "__main__":
@@ -12,7 +12,7 @@ if __name__ == "__main__":
 	# then log final machine state
 	ic.reset((1,12),(2,2))
 	ic.run()
-	print(repr(ic), "Memory[0] = %i" % ic.memory[0])
+	print("Memory[0] = %i" % ic.memory[0],sep="\n")
 	
 	# Iteratively guess values, run the machine
 	for i,j in itertools.product(range(len(ic.memory)),range(len(ic.memory))):
