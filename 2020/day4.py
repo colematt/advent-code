@@ -9,10 +9,13 @@ HAIR = re.compile('^\#[0-9a-f]{6}$')
 ID = re.compile ('^\d{9}$')
 
 def validate_old(passport):
-	return MANDATORY.issubset(set(passport.keys()))
+	# Returns true if and only if every key in MANDATORY is in passport.keys() 
+	# and all keys in passport.keys() are in FIELDS
+	return set(passport.keys()).issuperset(MANDATORY) and \
+		set(passport.keys()).issubset(FIELDS)
 
 def validate_new(passport):
-	if not MANDATORY.issubset(set(passport.keys())):
+	if not validate_old(passport):
 		return False
 	if not 1920 <= int(passport['byr']) <= 2002:
 		return False
@@ -20,8 +23,8 @@ def validate_new(passport):
 		return False
 	if not 2020 <= int(passport['eyr']) <= 2030:
 		return False
-	if not ((passport['hgt'][-2:] == 'cm' and (150 <= int(passport['hgt'][:-2]) <= 193)) or
-		  (passport['hgt'][-2:] == 'in' and (59 <= int(passport['hgt'][:-2]) <= 76))):
+	if not ((passport['hgt'][-2:] == 'cm' and (150 <= int(passport['hgt'][:-2]) <= 193)) or \
+		(passport['hgt'][-2:] == 'in' and (59 <= int(passport['hgt'][:-2]) <= 76))):
 		return False
 	if not HAIR.match(passport['hcl']): 
 		return False
