@@ -36,7 +36,7 @@ def validate_new(passport):
 		return True
 	
 def main():
-	with open('input4.txt','r') as fin:
+	with open('inputs/input4.txt','r') as fin:
 		passports = list(fin.read().split('\n\n'))
 		passports = [dict(keyval.split(':') for keyval in passport.split()) 
 			for passport in passports]

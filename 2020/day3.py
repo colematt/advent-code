@@ -17,7 +17,7 @@ def count_trees(forest, start, slope):
 	return count
 
 def main():
-	with open('input3.txt', 'r') as fin:
+	with open('inputs/input3.txt', 'r') as fin:
 		forest = [[c for c in line.strip('\n')] for line in fin.readlines()]
 		slopes = [(1,1),(3,1),(5,1),(7,1),(1,2)]
 

@@ -24,7 +24,7 @@ def validate_new(password:tuple):
 
 
 def main():
-	with open('input2.txt','r') as fin:
+	with open('inputs/input2.txt','r') as fin:
 		passwords = [tuple(line.split()) for line in fin.readlines()]
 		print(len(list(filter(validate_old,passwords))))
 		print(len(list(filter(validate_new,passwords))))

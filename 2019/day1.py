@@ -5,7 +5,7 @@ fuel = lambda m: max(math.floor(m/3)-2,0)
 
 if __name__ == "__main__":
 	# Read the input
-	with open('day1.txt', 'r') as f:
+	with open('inputs/day1.txt', 'r') as f:
 		modules = [int(line) for line in f.readlines()]
 	
 	# Fuel for just the modules

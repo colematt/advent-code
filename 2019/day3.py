@@ -32,7 +32,7 @@ def convert(s):
 if __name__ == "__main__":
 	
 	# Read inputs
-	with open('day3.txt', 'r') as f:
+	with open('inputs/day3.txt', 'r') as f:
 		vs1 = [convert(v) for v in f.readline().rstrip('\n').split(',')]
 		vs2 = [convert(v) for v in f.readline().rstrip('\n').split(',')]
 	

@@ -5,7 +5,7 @@ import itertools
 
 if __name__ == "__main__":
 	# Build the machine
-	with open('day2.txt','r') as f:
+	with open('inputs/day2.txt','r') as f:
 		ic = Intcode([int(inst) for inst in f.read().split(',')])
 	
 	# Reset the 1202 error and run the machine,

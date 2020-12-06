@@ -18,7 +18,7 @@ def findSeat(ids:typing.Iterable) -> int:
 	return seats.difference(ids).pop()
 
 def main():
-	with open('input5.txt') as fin:
+	with open('inputs/input5.txt') as fin:
 		passes = [line.rstrip() for line in fin.readlines()]
 		
 		# Part 1

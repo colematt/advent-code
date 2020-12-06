@@ -15,7 +15,7 @@ def solve(entries:Iterable,r:int):
 		print(p)
 
 def main():
-	with open('input1.txt') as fin:
+	with open('inputs/input1.txt') as fin:
 		entries = [int(line) for line in fin.readlines()]
 		solve(entries,2)
 		solve(entries,3)

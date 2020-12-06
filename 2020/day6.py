@@ -11,7 +11,7 @@ def intersection(groups):
 	return sum(counts)
 
 def main():
-	with open('input6.txt') as fin:
+	with open('inputs/input6.txt') as fin:
 		groups = [tuple(set(answers) for answers in group.split("\n")) for group in fin.read().split('\n\n')]
 		print(groups)
 		print(union(groups))
