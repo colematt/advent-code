@@ -44,7 +44,7 @@ def debug(program,acc=0,pc=0):
 	"""
 	{ For each instruction in a program, try permuting its opcode to see if 
 	  infinite loops can be resolved. If so, return the final accumulator and 
-	  program counter value when the loop is fixed. Otherwise, return None.
+	  program counter value when the loop is fixed. Otherwise, return None. }
 
 	:param      program:  The program
 	:type       program:  { type_description }
@@ -96,9 +96,9 @@ def printState(program,state):
 	:type       state:    { tuple }
 	"""
 	try:
-		print("acc: %i, pc: %i is %s" % (*tup,repr(program[tup[1]])))
+		print("acc: %i, pc: %i is %s" % (*state,repr(program[state[1]])))
 	except IndexError:
-		print("acc: %i, pc: %i Terminated" % (tup))
+		print("acc: %i, pc: %i Terminated" % (state))
 
 def main():
 	"""
