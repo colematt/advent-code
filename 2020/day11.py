@@ -128,15 +128,7 @@ def main():
 		
 		#### PART 1 ####
 		prevGrid = None
-		currGrid = copy.deepcopy(startGrid)
-		
-		assert list(getAdjacent(currGrid, 0, 0)) == [(0, 1), (1, 0), (1, 1)]
-		assert list(getAdjacent(currGrid, 1, 1)) == [(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)]
-		assert list(getAdjacent(currGrid, 9, 9)) == [(8, 8), (8, 9), (9, 8)]
-		assert dict(countAdjacent(currGrid, 1, 1)) == {'L':6, '.':2}
-		assert dict(countAdjacent(currGrid, 9, 9)) == {'L':2, '.':1}
-		assert countGrid(currGrid)['L'] == 71
-		
+		currGrid = copy.deepcopy(startGrid)S
 		while currGrid != prevGrid:
 			prevGrid = currGrid
 			currGrid = nextGrid(prevGrid)
@@ -145,24 +137,6 @@ def main():
 		#### PART 2 ####
 		prevGrid = None
 		currGrid = copy.deepcopy(startGrid)
-		
-		# Test upper left corner
-		assert list(getAdjacent(currGrid, 0, 0, strict=False)) == [(0, 2), (1, 0), (1, 1)]
-		assert dict(countAdjacent(currGrid, 0, 0, strict=False)) == {'L':3}
-		# Test lower right corner
-		assert list(getAdjacent(currGrid, 9, 9, strict=False)) == [(7, 7), (8, 9), (9, 8)]
-		assert dict(countAdjacent(currGrid, 9, 9, strict=False)) == {'L':3}
-		# Test floor, surrounded by chairs in all directions
-		assert list(getAdjacent(currGrid, 2, 4, strict=False)) == [(1, 3), (1, 4), (1, 5), (2, 2), (2, 7), (3, 3), (5, 4), (3, 5)]
-		assert dict(countAdjacent(currGrid, 2, 4, strict=False)) == {'L':8}
-		# Test floor, goes to right boundary without a chair
-		assert list(getAdjacent(currGrid, 6, 6, strict=False)) == [(5, 5), (5, 6), (4, 8), (6, 4), (6, 9), (7, 5), (7, 6), (7, 7)]
-		assert dict(countAdjacent(currGrid, 6, 6, strict=False)) == {'L':7, '.':1}
-		# Test floor, goes to lower boundary without a chair
-		assert list(getAdjacent(currGrid, 8, 1, strict=False)) == [(7, 0), (7, 1), (7, 2), (8, 0), (8, 2), (9, 0), (9, 1), (9, 2)]
-		assert dict(countAdjacent(currGrid, 8, 1, strict=False)) == {'L':7, '.':1}
-		
-		# Generate the next graph until no changes occur
 		while currGrid != prevGrid:
 			prevGrid = currGrid
 			currGrid = nextGrid(prevGrid, strict=False)
