@@ -4,8 +4,8 @@ import collections
 import itertools
 import re
 
-mask_re = re.compile('^mask = ([X01]{36})$', re.M)
-mem_re = re.compile('^mem\[(\d+)\] = (\d+)$', re.M)
+mask_re = re.compile(r'^mask = ([X01]{36})$', re.M)
+mem_re = re.compile(r'^mem\[(\d+)\] = (\d+)$', re.M)
 
 class Machine:
 	def __init__(self, program=list()):
