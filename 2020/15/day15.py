@@ -55,7 +55,7 @@ def test():
 	answers = [1, 10, 27, 78, 438, 1836]
 	for opening,answer in zip(openings,answers):
 		game1 = game(opening)
-		for turn in range(2020):
+		for _ in range(2020):
 			last = next(game1)
 		assert last == (answer)
 	
@@ -67,12 +67,12 @@ def main():
 	
 	#### PART 1 ####
 	gg = game(opening)
-	for turn in range(1,2020):
+	for _ in range(1,2020):
 		next(gg)
 	print(next(gg))
 	
 	#### PART 2 ####
-	for turn in range(2021,30000000):
+	for _ in range(2021,30000000):
 		next(gg)
 	print(next(gg))
 
