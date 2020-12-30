@@ -4,137 +4,158 @@ import aocd
 from collections import deque
 from icecream import ic
 import itertools
+from math import prod
 import typing
 
-def _score(deck):
-	return sum(map(lambda x: x[0]*x[1], (enumerate(reversed(deck),start=1))))
+# Global gamestate
+games = 0
 
-def combat(deck1, deck2):
+def _str(deck):
+	if deck:
+		return "top=" + ", ".join(str(card) for card in deck)
+	else:
+		return "empty"
+
+def score(deck):
 	"""
-	Play a game of standard Combat!
-	
-	:param      deck1:  Player 1's deck
-	:type       deck1:  typing.Deque
-	:param      deck2:  Player 2's deck
-	:type       deck2:  typing.Deque
-	
-	:returns:   Winning player's score
+	Return the deck's score. Empty decks are worth zero.
+	The bottom card in the deck is worth its face value.
+	The nth card in the deck from the bottom is worth
+	n times its face value.
+
+	:param      deck:  The deck
+	:type       deck:  typing.deque
+
+	:returns:   Deck score
 	:rtype:     int
 	"""
 
+	return sum(map(prod, (enumerate(reversed(deck),start=1))))
+
+def combat(deck1, deck2, recursive=False, debug=False, caller=None):
+	"""
+	Play a game of Combat!
+	
+	:param      deck1:      Player 1's deck
+	:type       deck1:      typing.Deque
+	:param      deck2:      Player 2's deck
+	:type       deck2:      typing.Deque
+	:param      recursive:  Enable recursive gameplay
+	:type       recursive:  boolean
+	:param      debug:      Log gameplay to stdout
+	:type       debug:      boolean
+	:param      caller:     The caller game's ID in recursive Combat!
+	:type       caller:     int
+	
+	:returns:   Players' decks as a 2-tuple
+	:rtype:     (typing.Deque, typing.Deque)
+	"""
+
+	# Local game state
+	global games
+	games += 1; game = games
+	rounds = 0
+	states = set()
+	dbg = debug
+
 	# Opening
-	ic("Player 1's deck: ", ", ".join(str(card) for card in deck1))
-	ic("Player 2's deck: ", ", ".join(str(card) for card in deck2))
+	if debug:
+		print("=== Game {} ===".format(game))
 
 	# Play rounds until one player has all cards
-	r = 0
 	while deck1 and deck2:
 		# Round header
-		r += 1
-		ic("-- Round {} --".format(r))
+		rounds += 1
+		if debug:
+			print("-- Round {} (Game {}) --".format(rounds, game))
+			print("Player 1's deck: {}".format(_str(deck1)))
+			print("Player 2's deck: {}".format(_str(deck2)))
+
+		# Check for repeated gamestate.
+		# if repeated, player 1 immediately wins.
+		# Return player 1's deck and an empty deck to represent
+		# player 2 having "lost"
+		if recursive:
+			state = (tuple(deck1), tuple(deck2))
+			if state in states:
+				return (deck1, deque())
+			else:
+				states.add(state)
 
 		# Play card from top of the deck
 		c1 = deck1.popleft()
 		c2 = deck2.popleft()
-		ic("Player 1 plays: {}".format(c1))
-		ic("Player 2 plays: {}".format(c2))
+		if debug:
+			print("Player 1 plays: {}".format(c1))
+			print("Player 2 plays: {}".format(c2))
 
 		# Comparison and resolution
-		if c1 > c2:
-			deck1.extend([c1,c2])
-			ic("Player 1 wins the round!")
-		if c2 > c1:
-			deck2.extend([c2,c1])
-			ic("Player 2 wins the round")
-	
-	# Report winner
-	ic("== Post-game results ==")
-	ic("Player 1's deck: ", deck1)
-	ic("Player 2's deck: ", deck2)
-	return max(_score(deck1), _score(deck2))
+		if recursive:
+			# Check whether to descend into sub-game
+			if len(deck1) >= c1 and len(deck2) >= c2:
+				if debug: print("Playing a sub-game to determine the winner...")
 
-def recursive_combat(deck1, deck2):
-	"""
-	Play a game of recursive Combat!
-	
-	:param      deck1:  Player 1's deck
-	:type       deck1:  typing.Deque
-	:param      deck2:  Player 2's deck
-	:type       deck2:  typing.Deque
-	
-	:returns:   Winning player's score
-	:rtype:     int
-	"""
+				# Make copies of the decks by slicing
+				copy1 = deque(itertools.islice(deck1, c1))
+				copy2 = deque(itertools.islice(deck2, c2))
 
-	# Round counter and deck state memory
-	r = 0
-	states = set()
-
-	# Opening
-	ic("Player 1's deck: ", ", ".join(str(card) for card in deck1))
-	ic("Player 2's deck: ", ", ".join(str(card) for card in deck2))
-
-	# Play rounds until a victory condition
-	while deck1 and deck2:
-		# Prevent infinite recursion
-		state = (tuple(deck1),tuple(deck2))
-		if state in states:
-			ic("Previous round's decks encountered!")
-			ic("Player 1 wins!")
-			return _score(deck1)
+				# Launch a recursive sub-game
+				copy1, copy2 = combat(copy1, copy2, recursive=True, debug=dbg, caller=game)
+				if copy1:
+					deck1.extend([c1,c2])
+					if debug: print("Player 1 wins the subgame and round!")
+				else:
+					deck2.extend([c2,c1])
+					if debug: print("Player 2 wins the subgame and round!")
+			else:
+				if c1 > c2:
+					deck1.extend([c1,c2])
+					if debug: print("Player 1 wins the round!")
+				if c2 > c1:
+					deck2.extend([c2,c1])
+					if debug: print("Player 2 wins the round")
 		else:
-			states.add(state)
-
-		# Round header
-		r += 1
-		ic("-- Round {} --".format(r))
-
-		# Play card from top of the deck
-		c1 = deck1.popleft()
-		c2 = deck2.popleft()
-		ic("Player 1 plays: {}".format(c1))
-		ic("Player 2 plays: {}".format(c2))
-
-		# Winner of this round is determined by 
-		# recursive Combat
-		if c1 > len(deck1) and c2 > len(deck2):
-
-		# Otherwise, at least one player doesn't have enough
-		# cards for recursive combat. The winner of the round
-		# is player with the higher value card
-		else:
-			pass
-
-		# Comparison and resolution
-		if c1 > c2:
-			deck1.extend([c1,c2])
-			ic("Player 1 wins the round!")
-		if c2 > c1:
-			deck2.extend([c2,c1])
-			ic("Player 2 wins the round")
-	
+			if c1 > c2:
+				deck1.extend([c1,c2])
+				if debug: print("Player 1 wins the round!")
+			if c2 > c1:
+				deck2.extend([c2,c1])
+				if debug: print("Player 2 wins the round")
+		
 	# Report winner
-	ic("== Post-game results ==")
-	ic("Player 1's deck: ", deck1)
-	ic("Player 2's deck: ", deck2)
-	return max(_score(deck1), _score(deck2))
-	
+	if debug:
+		print("== Post-game results ==")
+		print("Player 1's deck: {}".format(_str(deck1)))
+		print("Player 2's deck: {}".format(_str(deck2)))
+		if caller: print("\n...anyway, back to game {}.".format(caller))
+	return (deck1, deck2)
 
 def test():
-	with open('test.txt', 'r') as fin:
-		data = fin.read()
+	data = """Player 1:
+9
+2
+6
+3
+1
+
+Player 2:
+5
+8
+4
+7
+10"""
 	
 	#### PART A ####
 	player1, player2 = data.split('\n\n')
 	player1 = deque(int(card) for card in player1.split('\n')[1:])
 	player2 = deque(int(card) for card in player2.split('\n')[1:])
-	assert combat(player1, player2) == 306
+	assert max(map(score, combat(player1, player2, debug=True))) == 306
 
 	#### PART B ####
 	player1, player2 = data.split('\n\n')
 	player1 = deque(int(card) for card in player1.split('\n')[1:])
 	player2 = deque(int(card) for card in player2.split('\n')[1:])
-	assert recursive_combat(player1, player2) == 291
+	assert max(map(score, combat(player1, player2, recursive=True, debug=True))) == 291
 
 def main():
 	data = aocd.get_data(year=2020, day=22, block=True)
@@ -142,9 +163,15 @@ def main():
 	player1, player2 = data.split('\n\n')
 	player1 = deque(int(card) for card in player1.split('\n')[1:])
 	player2 = deque(int(card) for card in player2.split('\n')[1:])
+	winner_score = max(map(score, combat(player1, player2)))
+	aocd.submit(winner_score, part="a", day=22, year=2020)
 
-	aocd.submit(combat(player1, player2), part="a", day=22, year=2020)
+	player1, player2 = data.split('\n\n')
+	player1 = deque(int(card) for card in player1.split('\n')[1:])
+	player2 = deque(int(card) for card in player2.split('\n')[1:])
+	winner_score = max(map(score, combat(player1, player2, recursive=True)))
+	aocd.submit(winner_score, part="b", day=22, year=2020)
 	
 if __name__ == '__main__':
-	test()
+	# test()
 	main()
