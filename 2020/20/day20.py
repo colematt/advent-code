@@ -8,6 +8,7 @@ import itertools
 import math
 
 Tile = namedtuple('Tile', ['id','image'])
+Grid = namedtuple('Grid', ['id','image'])
 
 def rotate(tile):
 	"""
@@ -16,11 +17,10 @@ def rotate(tile):
 	return Tile(id=tile.id, image=list(''.join(x[::-1]) for x in zip(*tile.image)))
 
 def flip(tile):
-    """
-    Return a copy of a Tile whose image has been flipped about the x-axis
-    """
-
-    return Tile(id=tile.id, image=list(reversed(copy.copy(tile.image))))
+	"""
+	Return a copy of a Tile whose image has been flipped about the x-axis
+	"""
+	return Tile(id=tile.id, image=list(reversed(copy.copy(tile.image))))
 
 def top(tile):
 	"""
@@ -49,7 +49,7 @@ def right(tile):
 def tile_test():
 	"""
 	Test tile transforms and rotations
-	
+
 	:raises     AssertionError:  { If any transform or rotation fails. }
 	"""
 	# Test tile transforms and slices
@@ -86,6 +86,64 @@ def get_neighbors(tiles:list) -> dict:
 		neighbors[tile.id] = tile_neighbors
 	return neighbors
 
+def make_grid(tiles:list, neighbors=None) -> Tile:
+	"""
+	{ Make a grid, which is a tile, comprised of a square of tiles. }
+
+	:param      tiles:           The tiles
+	:type       tiles:           list
+
+	:returns:   { description_of_the_return_value }
+	:rtype:     Tile
+	"""
+	# Prepare the grid
+	size = math.isqrt(len(tiles))
+	if len(tiles) != size ** 2:
+		raise ValueError("Length of tiles (%i) was not a perfect square" % len(tiles))
+	grid = [[None for _ in range(size)] for _ in range(size)]
+
+	# Calculate neighbors if necessary
+	if not neighbors:
+		neighbors = get_neighbors(tiles)
+
+	# Categorize candidate tiles for faster assembly
+	corners = list(filter(lambda t: len(neighbors[t.id]) == 2, tiles))
+	edges = list(filter(lambda t: len(neighbors[t.id]) == 3, tiles))
+	centers = list(filter(lambda t: len(neighbors[t.id]) == 4, tiles))
+
+	# Assemble the tiles into the grid
+	for diagonal in range(size):
+		# Assemble corner
+		if diagonal == 0:
+			# Get an arbitrary corner and orient it
+			corner = corners.pop()
+			for transform in get_transformations(corner):
+				# TODO: try to fit two edge tiles to the corner's transformation
+				pass
+		elif diagonal == size - 1:
+			# Get the last corner remaining
+			grid[diagonal][diagonal] = corners.pop()
+		else:
+			row, col = diagonal, diagonal
+
+		# Assemble top edge
+		row = diagonal
+		for col in range(diagonal+1,size):
+			pass
+		
+		# Assemble left edge
+		col = diagonal
+		for row in range(diagonal+1,size):
+			pass
+
+		# Print the grid after each diagonal is assembled
+		ic(get_grid_ids(grid))
+
+	return grid
+
+def get_grid_ids(grid):
+	return [[col.id if col is not None else None for col in row] for row in grid]
+
 def test():
 	tile_test()
 	with open('test.txt', 'r') as fin:
@@ -96,7 +154,7 @@ def test():
 
 	#### PART A ####
 	neighbors = get_neighbors(tiles)
-	assert math.prod(n for n in neighbors if len(neighbors[n]) == 2) == 20899048083289
+	grid = make_grid(tiles, neighbors=neighbors)
 
 def main():
 	data = aocd.get_data(year=2020, day=20)
@@ -108,6 +166,7 @@ def main():
 	neighbors = get_neighbors(tiles)
 	aocd.submit(math.prod(n for n in neighbors if len(neighbors[n]) == 2), year=2020, day=20, part='a')
 
+
 if __name__ == '__main__':
 	test()
-	main()
+	# main()
