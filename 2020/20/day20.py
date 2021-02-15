@@ -46,22 +46,7 @@ def right(tile):
 	"""
 	return "".join([row[-1] for row in tile.image])
 
-def tile_test():
-	"""
-	Test tile transforms and rotations
-
-	:raises     AssertionError:  { If any transform or rotation fails. }
-	"""
-	# Test tile transforms and slices
-	testtile = Tile(id=2311, image=['..##.#..#.', '##..#.....', '#...##..#.', '####.#...#', '##.##.###.', '##...#.###', '.#.#.#..##', '..#....#..', '###...#.#.', '..###..###'])
-	assert rotate(testtile) == Tile(id=2311, image=['.#..#####.', '.#.####.#.', '###...#..#', '#..#.##..#', '#....#.##.', '...##.##.#', '.#...#....', '#.#.##....', '##.###.#.#', '#..##.#...'])
-	assert flip(testtile) == Tile(id=2311, image=['..###..###', '###...#.#.', '..#....#..', '.#.#.#..##', '##...#.###', '##.##.###.', '####.#...#', '#...##..#.', '##..#.....', '..##.#..#.'])
-	assert top(testtile) == "..##.#..#."
-	assert bottom(testtile) == "..###..###"
-	assert left(testtile) == ".#####..#."
-	assert right(testtile) == "...#.##..#"
-
-def get_transformations(tile:Tile) -> list:
+def get_transformations(tile):
 	"""
 	Return a list of all transformations of a given tile
 	"""
@@ -70,6 +55,39 @@ def get_transformations(tile:Tile) -> list:
 	tile270 = rotate(tile180)
 	return [tile, tile90, tile180, tile270, 
 		flip(tile), flip(tile90), flip(tile180), flip(tile270)]
+
+def fit_tile(tile, side, other):
+	"""
+	Return the transformation of other that fits against tile at side.
+	If no transformation fits, return None.
+	"""
+	funcs = {
+		'top': top,
+		'bottom': bottom,
+		'left': left,
+		'right': right
+	}
+	invfuncs = {
+		'top': bottom,
+		'bottom': top,
+		'left': right,
+		'right': left
+	}
+
+	if side not in funcs:
+		raise ValueError("Unrecognized side: %s" % str(side))
+	
+	for transform in get_transformations(other):
+		if funcs[side](tile) == invfuncs[side](transform):
+			return transform
+	return None 
+
+def get_list_ids(tiles):
+	return [tile.id for tile in tiles]
+
+def get_grid_ids(grid):
+	return [[col.id if col is not None else None for col in row] for row in grid]
+
 
 def get_neighbors(tiles:list) -> dict:
 	"""
@@ -82,7 +100,7 @@ def get_neighbors(tiles:list) -> dict:
 		for other in others:
 			trans_prods = itertools.product(get_transformations(tile), get_transformations(other))
 			for t_trans, o_trans in trans_prods:
-				if right(t_trans) == left(o_trans): tile_neighbors.add(other.id)
+				if right(t_trans) == left(o_trans): tile_neighbors.add(other)
 		neighbors[tile.id] = tile_neighbors
 	return neighbors
 
@@ -141,11 +159,23 @@ def make_grid(tiles:list, neighbors=None) -> Tile:
 
 	return grid
 
-def get_grid_ids(grid):
-	return [[col.id if col is not None else None for col in row] for row in grid]
+def test_funcs():
+	"""
+	Test tile transforms and rotations
+
+	:raises     AssertionError:  { If any transform or rotation fails. }
+	"""
+	# Test tile transforms and slices
+	testtile = Tile(id=2311, image=['..##.#..#.', '##..#.....', '#...##..#.', '####.#...#', '##.##.###.', '##...#.###', '.#.#.#..##', '..#....#..', '###...#.#.', '..###..###'])
+	assert rotate(testtile) == Tile(id=2311, image=['.#..#####.', '.#.####.#.', '###...#..#', '#..#.##..#', '#....#.##.', '...##.##.#', '.#...#....', '#.#.##....', '##.###.#.#', '#..##.#...'])
+	assert flip(testtile) == Tile(id=2311, image=['..###..###', '###...#.#.', '..#....#..', '.#.#.#..##', '##...#.###', '##.##.###.', '####.#...#', '#...##..#.', '##..#.....', '..##.#..#.'])
+	assert top(testtile) == "..##.#..#."
+	assert bottom(testtile) == "..###..###"
+	assert left(testtile) == ".#####..#."
+	assert right(testtile) == "...#.##..#"
 
 def test():
-	tile_test()
+	test_funcs()
 	with open('test.txt', 'r') as fin:
 		data = fin.read()
 	tiles = [tile for tile in data.split('\n\n')]
