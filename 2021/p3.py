@@ -58,7 +58,7 @@ def life_support(lines):
 	generator = int("".join(o2values[0]),2)
 
 	# Filter CO2 values by most common value at bit
-	# Determine the oxygen generator rating
+	# Determine the carbon dioxide scrubber rating
 	co2values = [tuple(line) for line in lines]
 	bit = 0
 	while(len(co2values) > 1):
