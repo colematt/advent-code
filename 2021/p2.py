@@ -2,10 +2,18 @@
 
 import aocd
 from icecream import ic
+ic.disable()
+
+TEST_INPUT = """forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2
+"""
 
 def test():
-	with open('test.txt', 'r') as fin:
-		lines = [line for line in fin.readlines()]
+	lines = [line for line in TEST_INPUT.splitlines()]
 	commands = [(line.split()[0],int(line.split()[1])) for line in lines]
 
 	### PART A ###

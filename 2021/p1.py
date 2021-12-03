@@ -6,11 +6,20 @@ import itertools
 import math
 import operator
 
-
+TEST_INPUT = """199
+200
+208
+210
+200
+207
+240
+269
+260
+263
+"""
 
 def test():
-	with open('test.txt', 'r') as fin:
-		depths = [int(d) for d in fin.readlines()]
+	depths = [int(d) for d in TEST_INPUT.splitlines()]
 
 	### PART A ###
 	depths2 = list(zip(depths, depths[1:]))
