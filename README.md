@@ -11,3 +11,4 @@ This repository also has the following dependencies from [PyPI](https://pypi.org
 - [Regex](https://pypi.org/project/regex/)
 - [Sympy](https://pypi.org/project/sympy/)
 - [Pyparsing](https://pypi.org/project/pyparsing/)
+- [Itertools Recipes](https://pypi.org/project/more-itertools)
