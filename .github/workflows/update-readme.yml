@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: "51 */4 * * *"  # Every 4 hours at :51 past the hour
   workflow_dispatch:
-  # push: # (disabled) run on push, be careful with this setting 
+  push: # (disabled) run on push, be careful with this setting 
           # as the workflow should only be triggered at a rate lower than
           # 4 times a hour to keep traffic on aoc site low 
 
