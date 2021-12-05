@@ -12,11 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: k2bd/advent-readme-stars@v1
+      - uses: joblo2213/aoc-badges-action@v3
         with:
           userid: 867739
           session: ${{ secrets.AOC_SESSION }}
-          file: 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update README stars
