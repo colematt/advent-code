@@ -1,8 +1,11 @@
 name: Update README ⭐
 on:
   schedule:
-    - cron: "51 */4 * * *"  # Every 4 hours
+    - cron: "51 */4 * * *"  # Every 4 hours at :51 past the hour
   workflow_dispatch:
+  # push: # (disabled) run on push, be careful with this setting 
+          # as the workflow should only be triggered at a rate lower than
+          # 4 times a hour to keep traffic on aoc site low 
 
 jobs:
   update-readme:
@@ -11,8 +14,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: k2bd/advent-readme-stars@v1
         with:
-          userId: 867739
-          leaderboardId: 9876543
+          userid: 867739
+          leaderboard: https://adventofcode.com/2021/leaderboard/private/view/867739.json
           sessionCookie: ${{ secrets.AOC_SESSION }}
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
