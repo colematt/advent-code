@@ -1,6 +1,6 @@
 # Matthew's Advent of Code
 
-![](https://img.shields.io/badge/stars%20⭐-4-yellow)
+![](https://img.shields.io/badge/stars%20⭐-10-yellow)
 
 ## Dependencies
 
