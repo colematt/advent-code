@@ -1,5 +1,8 @@
 # Matthew's Advent of Code
 
+![](https://img.shields.io/badge/stars%20⭐-4-yellow)
+![](https://img.shields.io/badge/days%20completed-2-red)
+
 ## Dependencies
 
 This repository uses [Advent of Code Data](https://github.com/wimglenn/advent-of-code-data) to fetch problems and submit answers.
@@ -12,3 +15,5 @@ This repository also has the following dependencies from [PyPI](https://pypi.org
 - [Sympy](https://pypi.org/project/sympy/)
 - [Pyparsing](https://pypi.org/project/pyparsing/)
 - [Itertools Recipes](https://pypi.org/project/more-itertools)
+
+867739
