@@ -4,13 +4,19 @@
 
 ## Dependencies
 
+TLDR:
+```
+pip install advent-of-code-data icecream mpmath regex sympy pyparsing more-itertools pythonic-data-structures
+```
+
 This repository uses [Advent of Code Data](https://github.com/wimglenn/advent-of-code-data) to fetch problems and submit answers.
 
 This repository also has the following dependencies from [PyPI](https://pypi.org/):
 
-- [Icecream](https://github.com/gruns/icecream)
+- [Icecream](https://pypi.org/project/icecream/)
 - [mpmath](https://pypi.org/project/mpmath/)
 - [Regex](https://pypi.org/project/regex/)
 - [Sympy](https://pypi.org/project/sympy/)
 - [Pyparsing](https://pypi.org/project/pyparsing/)
 - [Itertools Recipes](https://pypi.org/project/more-itertools)
+- [Pythonic Data Structures](https://pypi.org/project/pythonic-data-structures/)
