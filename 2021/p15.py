@@ -77,6 +77,7 @@ def explore(graph, source):
 			if alt < getter(dist,*v):
 				setter(dist,*v,alt)
 				setter(prev,*v,u)
+				Q.enqueue(v,alt)
 
 	return dist,prev
 
@@ -89,7 +90,7 @@ def main():
 	graph = parse(aocd.data)
 	dist, prev = explore(graph,(0,0))
 	ic(dist,prev)
-	aocd.submit(dist[-1][-1]-1, part='a')
+	aocd.submit(dist[-1][-1], part='a')
 
 if __name__ == '__main__':
 	test()
