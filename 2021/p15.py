@@ -3,8 +3,9 @@
 import aocd
 from icecream import ic 
 from functools import partial
-import math
-from queue import PriorityQueue
+from itertools import filterfalse
+from operator import getitem,setitem
+from DataStructures.AbstractDataStructures import DuplicatePriorityQueue
 
 TEST_DATA = """1163751742
 1381373672
@@ -40,25 +41,55 @@ def explore(graph, source):
 	Return prev[cell], the predecessor minimum total risk level point
 	"""
 	# Initialization:
-	# Set dist[source] to 0, all others to infinity
+	nrows = len(graph)												# number of rows in graph
+	ncols = max([len(row) for row in graph])	# number of cols in each row
+	maxpri = sum(map(sum,graph)) + 1 					# maximum queue priority 
+																						# (e.g, the maximum risk level 
+																						# occurs when a path goes over each 
+																						# cell once)
+
+	# Set dist[source] to 0, all others to maxpri
+	dist = [[maxpri for _ in range(ncols)] for _ in range(nrows)]
+	setter(dist,*source,0)
+
 	# Set prev[source] to tuple(), all others to None
+	prev = [[None for _ in range(ncols)] for _ in range(nrows)]
+	setter(prev,*source,tuple())
+
 	# For each cell in graph, add to priority queue Q, priority=dist[cell]
-	
+	Q = DuplicatePriorityQueue(reverse=True)
+	for row in range(nrows):
+		for col in range(ncols):
+			Q.enqueue((row,col),getter(dist,row,col))
+
+	# Exploration:
 	# While there are unexplored cells in Q:
+	while Q:
 		# Remove and return the min priority vertex u from Q
+		u = Q.dequeue()
+
 		# For each neighbor v of u:
-	# 	# Calculate alt = dist[u] + graph[v]
-	# 	# if alt < dist[v]:
-	# 		# Update dist[v] = alt, prev[v] = u
-	
-	# Return dist[], prev[]
+		for v in neighbors(graph,*u):
+			# Calculate alt = dist[u] + graph[v]
+			alt = getter(dist,*u) + getter(graph,*v)
+			
+			# Update if alt has found a better path
+			if alt < getter(dist,*v):
+				setter(dist,*v,alt)
+				setter(prev,*v,u)
+
+	return dist,prev
 
 def test():
 	graph = parse(TEST_DATA)
-	explore(graph,(0,0))
+	dist, prev = explore(graph,(0,0))
+	assert dist[-1][-1] == 40
 
 def main():
-	pass
+	graph = parse(aocd.data)
+	dist, prev = explore(graph,(0,0))
+	ic(dist,prev)
+	aocd.submit(dist[-1][-1]-1, part='a')
 
 if __name__ == '__main__':
 	test()
