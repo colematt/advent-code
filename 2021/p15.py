@@ -22,9 +22,30 @@ TEST_DATA = """1163751742
 getter = partial(lambda matrix,row,col: getitem(getitem(matrix,row),col))
 setter = partial(lambda matrix,row,col,val: 
   setitem(getitem(matrix,row),col,val))
+wrapper = partial(lambda n: n if (n > 0 and n <=9) else (n-1) % 9 + 1)
+
+def strGraph(graph):
+	return "\n".join(
+		"".join(str(col) for col in row) for row in graph)
 
 def parse(data):
 	return [[int(col) for col in row] for row in data.splitlines()]
+
+def expand(graph):
+	"""
+	{ Expand an n x n graph into a 5n x 5n graph
+	  following increasing risk level rule. }
+	"""
+	# Initialization:
+	nrows = len(graph)												# number of rows in graph
+	ncols = max([len(row) for row in graph])	# number of cols in each row of graph
+
+	# Copy graph -> expanded
+	expanded = [[graph[row][col] if (row < nrows and col < ncols) 
+		else wrapper(graph[row % nrows][col % ncols] + row // nrows + col // ncols) 
+		for col in range(ncols * 5)] for row in range(nrows * 5)]
+	
+	return expanded
 
 def neighbors(graph,row,col):
 	"""
@@ -82,16 +103,27 @@ def explore(graph, source):
 	return dist,prev
 
 def test():
+	# Part A
 	graph = parse(TEST_DATA)
 	dist, prev = explore(graph,(0,0))
 	assert dist[-1][-1] == 40
+	
+	# Part B
+	graph = expand(graph)
+	dist, prev = explore(graph,(0,0))
+	assert dist[-1][-1] == 315
 
 def main():
+	# Part A
 	graph = parse(aocd.data)
 	dist, prev = explore(graph,(0,0))
-	ic(dist,prev)
 	aocd.submit(dist[-1][-1], part='a')
 
+	# Part B
+	graph = expand(graph)
+	dist, prev = explore(graph,(0,0))
+	aocd.submit(dist[-1][-1], part='b')
+	
 if __name__ == '__main__':
 	test()
 	main()
