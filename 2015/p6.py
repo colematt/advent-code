@@ -3,6 +3,7 @@
 from itertools import count
 import aocd
 from icecream import ic
+ic.disable()
 import re
 import typing
 

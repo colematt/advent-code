@@ -10,7 +10,7 @@ BinaryInstruction = tuple[str,str,str, str]    	# op src1 src2 dst
 TernaryInstruction = tuple[str,str,str,str,str] # op src1 src2 src3 dst
 
 from icecream import ic
-ic.enable()
+ic.disable()
 
 testlines = (
 	"123 -> x",
