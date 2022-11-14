@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-#import aocd
-#from icecream import ic
+import aocd
+from icecream import ic
 import hashlib
 
 testdata = [(b'abcdef',609043),(b'pqrstuv',1048970)]
@@ -31,7 +31,7 @@ def main():
 			break
 		else:
 			number += 1
-	print(number)
+	aocd.submit(number,part='a')
 	
 	### PART B ###
 	key = b'iwrupvqb'
@@ -44,7 +44,7 @@ def main():
 			break
 		else:
 			number += 1
-	print(number)
+	aocd.submit(number,part='b')
 	
 if __name__ == "__main__":
 	test()
