@@ -46,8 +46,8 @@ def solve_a(data:str) -> str:
 		ic(amt,src,dst)
 		for _ in range(amt):
 			stacks[dst].insert(0,stacks[src].pop(0))			
-		ic(stacks[1:])
-
+			
+	ic(stacks[1:])
 	return "".join(stack[0] for stack in filter(lambda s:s, stacks[1:]))
 
 def solve_b(data:str) -> str:
@@ -56,9 +56,8 @@ def solve_b(data:str) -> str:
 	
 	for amt,src,dst in moves:
 		ic(amt,src,dst)
-		for _ in range(amt):
-			stacks[dst][0:0] = stacks[src][:amt]
-			stacks[src][:amt] = []			
+		stacks[dst][0:0] = stacks[src][:amt]
+		stacks[src][:amt] = []	
 	
 	ic(stacks[1:])
 	return "".join(stack[0] for stack in filter(lambda s:s, stacks[1:]))
@@ -67,6 +66,5 @@ if __name__ == '__main__':
 	assert solve_a(testdata) == "CMZ"
 	aocd.submit(solve_a(aocd.data),part='a')
 	assert solve_b(testdata) == "MCD"
-	ic.enable()
 	aocd.submit(solve_b(aocd.data),part='b')
 	
