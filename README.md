@@ -1,6 +1,6 @@
 # Matthew's Advent of Code
 
-![](https://img.shields.io/badge/stars%20⭐-14-yellow) [![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=master)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
+![](https://img.shields.io/badge/stars%20⭐-15-yellow) [![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=master)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
 
 ## Dependencies
 
