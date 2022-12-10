@@ -6,7 +6,7 @@ import typing
 import array
 
 from icecream import ic
-ic.enable()
+ic.disable()
 
 testdata = """30373
 25512
@@ -49,35 +49,35 @@ def score(forest:list[list[int]], row:int, col:int) -> int:
 	frow = get_row(forest,row)
 	fcol = get_col(forest,col)
 
+	# Trees on the edge have at least one viewing distance of zero
+	# -> score must be zero also
+	if row == 0 or col == 0 or col == len(frow)-1 or row == len(fcol)-1:
+		return 0
+
 	# Looking up
 	up = row-1
-	while (up > 0) and (frow[up] < height): 
+	while (up > 0) and (fcol[row] > fcol[up]):
 		up -= 1
-	ic(up, (up > 0),(frow[up] < height))
-	up = row - up
+	up = abs(up-row)
 
 	# Looking left
 	left = col-1
-	while (left > 0) and (frow[left] < height):
+	while (left > 0) and (frow[col] > frow[left]):
 		left -= 1
-	ic(left,(left > 0),(frow[left] < height))
-	left = col - left
+	left = abs(left-col)	
 
 	# Looking down
 	down = row+1
-	while (down < len(frow)) and (frow[down] < height): 
+	while (down < len(fcol)-1) and (fcol[row] > fcol[down]):
 		down += 1
-	ic(down, down < len(frow), frow[down] < height)
-	down = down - row
+	down = abs(down-row)
 
 	# Looking right
 	right = col+1
-	while (right < len(fcol)) and (fcol[right] < height):
+	while (right < len(frow)-1) and (frow[col] > frow[right]):
 		right += 1
-	ic(down, down < len(frow), frow[down] < height)
-	right = right - col
+	right = abs(right-col)	
 
-	ic(up,left,down,right)
 	return up * left * down * right
 
 def solve_a(data:str) -> int:
@@ -90,18 +90,18 @@ def solve_a(data:str) -> int:
 	return sum([row.count(True) for row in visibles])
 
 def solve_b(data:str) -> int:
-	ic.enable()
 	forest = get_forest(data)
-	ic(forest)
-	score(forest,1,2)
+	# assert score(forest,1,2) == 4
+	# assert score(forest,3,2) == 8
 
-	# scores = [[score(forest,row,col) 
-	# 	for col in range(len(forest[row]))] 
-	# 		for row in range(len(forest))]
-	# ic(scores)
-	# return max(max(row) for row in visibles)
+	scores = [[score(forest,row,col) 
+		for col in range(len(forest[row]))] 
+			for row in range(len(forest))]
+	ic(scores)
+	return max(max(row) for row in scores)
 
 if __name__ == '__main__':
 	assert solve_a(testdata) == 21
 	aocd.submit(solve_a(aocd.data),part='a')
-	solve_b(testdata)
+	assert solve_b(testdata) == 8
+	aocd.submit(solve_b(aocd.data),part='b')
