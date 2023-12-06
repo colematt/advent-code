@@ -1,6 +1,11 @@
 # Matthew's Advent of Code
 
-![](https://img.shields.io/badge/stars%20⭐-2-yellow) [![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=main)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
+[![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=main)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
+
+This year's stats:
+![](https://img.shields.io/badge/day%20📅-22-blue)
+![](https://img.shields.io/badge/stars%20⭐-2-yellow) 
+![](https://img.shields.io/badge/days%20completed-17-red)
 
 ## Dependencies
 
