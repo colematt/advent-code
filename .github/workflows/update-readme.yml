@@ -1,7 +1,7 @@
 name: Update README ⭐
 on:
   schedule:
-    - cron: "55 13 1-25 12 *"  
+    - cron: "50 04 1-25 12 *"  
   workflow_dispatch:
   push: # (disabled) run on push, be careful with this setting 
           # as the workflow should only be triggered at a rate lower than
