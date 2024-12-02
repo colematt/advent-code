@@ -3,9 +3,9 @@
 [![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=main)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
 
 This year's stats:
-![](https://img.shields.io/badge/day%20📅-29-blue)
-![](https://img.shields.io/badge/stars%20⭐-4-yellow) 
-![](https://img.shields.io/badge/days%20completed-2-red)
+![](https://img.shields.io/badge/day%20📅-2-blue)
+![](https://img.shields.io/badge/stars%20⭐-2-yellow) 
+![](https://img.shields.io/badge/days%20completed-1-red)
 
 ## Dependencies
 
