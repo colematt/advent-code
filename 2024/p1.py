@@ -1,4 +1,4 @@
-#!/Users/colemr1/venv/bin/python3
+#!/usr/bin/env python3
 
 from aocd import data, submit
 from collections import Counter
@@ -16,7 +16,7 @@ def solveA(data):
 	# Read from text
 	lists = [tuple(int(x) for x in line.split()) for line in data.splitlines()]
 	# Transpose and sort for problem description
-	left,right = (sorted(l) for l in transpose(lists))
+	left, right = (sorted(l) for l in transpose(lists))
 	# Zip and get sum of differences
 	zipped = list(zip(left,right))
 	return sum((abs(x-y) for x,y in zipped))
@@ -36,6 +36,3 @@ if __name__ == "__main__":
 	
 	assert solveB(testdata) == 31
 	submit(solveB(data), part='b')
-	
-	
-	
