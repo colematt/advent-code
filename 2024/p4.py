@@ -37,6 +37,7 @@ def groups(data, func):
             grouping[func(x, y)].append(data[y][x])
     return list(map(grouping.get, sorted(grouping)))
 
+
 def countseq(lst, seq):
     count = 0
     seq_len = len(seq)
@@ -44,6 +45,7 @@ def countseq(lst, seq):
         if lst[i:i + seq_len] == seq:
             count += 1
     return count
+
 
 def check_submatrix(submatrix):
     """
@@ -62,6 +64,7 @@ def check_submatrix(submatrix):
             return True
     return False
 
+
 def solveA(data):
     matrix = [[char for char in row] for row in data.splitlines()]
     cols  = list(filter(lambda t: len(t) >= 4, groups(matrix, lambda x, y: x)))
@@ -73,8 +76,8 @@ def solveA(data):
     for lst in chain(cols, rows, fdiag, bdiag):
         count += countseq(lst, ['X','M','A','S'])
         count += countseq(lst, ['S','A','M','X'])
-    
     return count
+
 
 def solveB(data):
     matrix = [[char for char in row] for row in data.splitlines()]
