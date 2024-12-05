@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from aocd import data,submit
 import string
 NUMBERS = set(string.digits)
 SYMBOLS = set(string.punctuation).difference(".")
@@ -41,15 +42,10 @@ def canonicalize(data):
     return parts
 
 
-def test():
-    parts = canonicalize(testdata)
-    print(parts)
-
-
-def main():
-    pass
+def solveA(data):
+    parts = canonicalize(data)
+    return None
 
 
 if __name__ == "__main__":
-    test()
-    main()
+    assert solveA(testdata) == 4361
