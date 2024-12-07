@@ -56,9 +56,9 @@ def walk(lab,include_vector=False):
                 case (1,0):  dr,dc = 0,-1  # v -> <
                 case (0,-1): dr,dc = -1,0  # < -> ^
                 case _: pass
-
-        # Move (potentially exiting the lav)
-        r,c = r+dr, c+dc
+        else:
+            # Move (potentially exiting the lav)
+            r,c = r+dr, c+dc
 
 def solveA(data):
     # Read in the lab
@@ -68,7 +68,43 @@ def solveA(data):
     visited = set(walk(lab))
     return len(visited)
 
+def solveB(data):
+    # Read in the lab map
+    lab = canonicalize(data)
+
+    # Get the list of tiles visited plus vectors while walking without cycles
+    states = list(walk(lab, include_vector=True))
+
+    # Look for potential obstacle points for creating cycles.
+    # An obstacle point occurs if walk initiated from the start would cycle
+    obstacles = set()
+    for state in states:
+        # Copy the map and add an obstacle at the "next" tile
+        copylab = copy.deepcopy(lab)
+        r,c,dr,dc = state
+        if inbounds(copylab, r+dr,c+dc):
+            obstacle = (r+dr,c+dc)
+            copylab[r+dr][c+dc] = '#'
+        else:
+            continue  
+
+        # Perform the walk looking for a cycle
+        visited = set()
+        for step in walk(copylab,include_vector=True):
+            if (step in visited):
+                obstacles.add(obstacle)
+                break
+            else:
+                visited.add(step)
+
+    # Return the solution
+    # The initial position cannot be an obstacle
+    obstacles = set(filter(lambda ob: lab[ob[0]][ob[1]] not in ('^','>','v','<'), obstacles))
+    return len(obstacles)
+
 if __name__ == "__main__":
     assert solveA(testdata) == 41
     submit(solveA(data), part='a')
 
+    assert solveB(testdata) == 6
+    submit(solveB(data), part='b')
