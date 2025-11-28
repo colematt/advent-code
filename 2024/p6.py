@@ -104,7 +104,7 @@ def solveB(data):
 
 if __name__ == "__main__":
     assert solveA(testdata) == 41
-    submit(solveA(data), part='a')
+    submit(str(solveA(data)), part='a')
 
     assert solveB(testdata) == 6
-    submit(solveB(data), part='b')
+    submit(str(solveB(data)), part='b')

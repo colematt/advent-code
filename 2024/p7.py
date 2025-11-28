@@ -25,16 +25,6 @@ def parse(data):
             for lhs,rhs in [line.split(": ") 
                             for line in data.splitlines()]]
 
-def iterreduce(operators, operands):
-    if not operands:
-        return None
-    else:
-        res = operands.pop(0)
-        while operands:
-            op, x = operators.pop(0), operands.pop(0)
-            res = op(res,x)
-        return res
-
 def solveA(data):
     # Get input
     equations = parse(data)
@@ -81,7 +71,7 @@ def solveB(data):
     
 if __name__ == "__main__":
     assert solveA(testdata) == 3749
-    submit(solveA(data), part='a')
+    submit(str(solveA(data)), part='a')
 
     assert solveB(testdata) == 11387
-    submit(solveB(data), part='b')
+    submit(str(solveB(data)), part='b')
