@@ -4,8 +4,8 @@
 
 This year's stats:
 ![This year's current day](https://img.shields.io/badge/day%20📅-1-blue)
-![This year's stars](https://img.shields.io/badge/stars%20⭐-0-yellow)
-![This year's completed days](https://img.shields.io/badge/days%20completed-0-red)
+![This year's stars](https://img.shields.io/badge/stars%20⭐-2-yellow)
+![This year's completed days](https://img.shields.io/badge/days%20completed-1-red)
 
 ## Setup
 
