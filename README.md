@@ -9,14 +9,10 @@ This year's stats:
 
 ## Setup
 
-TLDR:
-
 ```shell
 python3 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
-This repository uses [Advent of Code Data](https://github.com/wimglenn/advent-of-code-data) to fetch problems and submit answers. Don't forget to set your `AOC_SESSION` environment variable using [these instructions](https://github.com/wimglenn/advent-of-code-data?tab=readme-ov-file#quickstart)
-
-This repository also has the following dependencies from [PyPI](https://pypi.org/) installed from [its requirements file](requirements.txt)
+This repository uses [Advent of Code Data](https://github.com/wimglenn/advent-of-code-data) to fetch problems and submit answers. Don't forget to set your `AOC_SESSION` environment variable using [these instructions](https://github.com/wimglenn/advent-of-code-data?tab=readme-ov-file#quickstart).
