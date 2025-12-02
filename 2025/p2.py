@@ -51,7 +51,7 @@ def solveB(data:str) -> int:
 
 
 if __name__ == "__main__":
-    # assert solveA(testdata) == 1227775554
-    # submit(str(solveA(data)), part='a')
+    assert solveA(testdata) == 1227775554
+    submit(str(solveA(data)), part='a')
     assert solveB(testdata) == 4174379265
     submit(str(solveB(data)), part='b')
