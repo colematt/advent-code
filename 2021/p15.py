@@ -62,12 +62,12 @@ def explore(graph, source):
 	Return prev[cell], the predecessor minimum total risk level point
 	"""
 	# Initialization:
-	nrows = len(graph)												# number of rows in graph
+	nrows = len(graph)							# number of rows in graph
 	ncols = max([len(row) for row in graph])	# number of cols in each row
-	maxpri = sum(map(sum,graph)) + 1 					# maximum queue priority 
-																						# (e.g, the maximum risk level 
-																						# occurs when a path goes over each 
-																						# cell once)
+	maxpri = sum(map(sum,graph)) + 1 			# maximum queue priority 
+												# (e.g, the maximum risk level 
+												# occurs when a path goes over 
+												# each cell once)
 
 	# Set dist[source] to 0, all others to maxpri
 	dist = [[maxpri for _ in range(ncols)] for _ in range(nrows)]
