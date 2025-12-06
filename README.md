@@ -3,9 +3,9 @@
 [![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=main)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
 
 This year's stats:
-![This year's current day](https://img.shields.io/badge/day%20📅-4-blue)
-![This year's stars](https://img.shields.io/badge/stars%20⭐-6-yellow)
-![This year's completed days](https://img.shields.io/badge/days%20completed-3-red)
+![This year's current day](https://img.shields.io/badge/day%20📅-5-blue)
+![This year's stars](https://img.shields.io/badge/stars%20⭐-9-yellow)
+![This year's completed days](https://img.shields.io/badge/days%20completed-4-red)
 
 ## Setup
 
