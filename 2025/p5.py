@@ -40,8 +40,10 @@ def solveB(data: str) -> int:
     # ids = set(itertools.chain(*ranges))
     # return(len(ids))
 
-    # Coalesce the range start/stop if they overlap
     coalesced = list()
+    istart,istop,jstart,jstop = None,None,None,None
+
+    # Coalesce the range start/stop if they overlap
     if len(ranges) >= 1:
         (istart,istop) = ranges.pop(0)
         while ranges:
