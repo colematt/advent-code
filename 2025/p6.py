@@ -70,7 +70,7 @@ def solveB(data: str) -> int:
         n = 0
         for row in range(len(nums)):
             if type(nums[row][col]) is int:
-                n = (n * 10) + nums[row][col]
+                n = (n * 10) + nums[row][col] # type: ignore
         cols.append(n)
     
     # Do the math
