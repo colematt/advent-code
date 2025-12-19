@@ -136,3 +136,7 @@ dmypy.json
 
 # VSCode
 .VSCode
+
+# Sublime
+advent-code.sublime-project
+pyrightconfig.json
