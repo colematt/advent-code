@@ -2,7 +2,8 @@
 
 from aocd import data, submit
 from icecream import ic
-from itertools import chain,combinations
+ic.disable()
+from itertools import combinations
 from shapely import Polygon, contains
 
 testdata = """7,1
