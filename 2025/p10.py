@@ -8,8 +8,8 @@ testdata = """[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
 [.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}
 """
 
-def get_goal(lights:str) -> list[bool]:
-    return [True if c == "#" else False for c in lights.strip("[]")]
+def get_goal(lights:str) -> tuple[bool,...]:
+    return tuple(True if c == "#" else False for c in lights.strip("[]"))
 
 
 def get_buttons(diagrams:list[str], size:int) -> list[list[bool]]:
@@ -39,24 +39,29 @@ def solveA(data:str) -> int:
 
     # Solve machines
     for i,machine in enumerate(machines):
+        # Initialize machine
         goal, buttons = machine
-        lights, count = [False for _ in range(len(goal))], 0
+        lights, count = tuple(False for _ in range(len(goal))), 0
         queue = [(lights, count)]
+        history = {lights}
         
+        # Solve machine
         while queue:
             lights, count = queue.pop(0)
             # Solution found, stop queue
             if lights == goal:
+                counter += count
                 break
             # Solution not found, add states from pressing each button to queue
             else:
                 for button in buttons:
-                    queue.append(([l1 ^ l2 for l1,l2 in zip(lights, button)],count+1))
+                    next = tuple(l1 ^ l2 for l1,l2 in zip(lights, button))
+                    if next not in history:
+                        queue.append((next,count+1))
+                        history.add(next)
         # Solution found, add its count to the counter, 
         # iterate to next machine
-        counter += count
         ic(i,counter)
-
     return counter
 
 
@@ -65,7 +70,10 @@ def solveB(data:str) -> int:
 
 
 if __name__ == "__main__":
+    ic.disable()
     assert solveA(testdata) == 7
     submit(str(solveA(data)), part='a')
-    # assert solveB(testdata) == 24
-    # submit(str(solveB(data)), part='b')
+    
+    assert solveB(testdata) == 33
+    ic.enable()
+    submit(str(solveB(data)), part='b')
