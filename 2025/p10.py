@@ -27,8 +27,23 @@ def get_buttons(diagrams:list[str], size:int) -> list[list[bool]]:
     return buttons
 
 
-def get_joltages(jolts:str) -> set[int]:
-    return eval(jolts)
+def get_buttonsB(diagrams:list[str], size:int) -> list[list[int]]:
+    buttons:list[list[int]] = list()
+    for diagram in diagrams:
+        diagram = eval(diagram)
+        b = [0 for _ in range(size)]
+        if type(diagram) == int:
+            b[diagram] = 1
+            buttons.append(b)
+        else:
+            for idx in diagram:
+                b[idx] = 1
+            buttons.append(b)
+    return buttons
+
+
+def get_joltages(jolts:str) -> list[int]:
+    return [int(j) for j in jolts.strip("{}").split(",")]
 
 
 def solveA(data:str) -> int:
@@ -65,8 +80,37 @@ def solveA(data:str) -> int:
     return counter
 
 
-def solveB(data:str) -> int:
-    pass
+def solveB(data:str) -> int | None:
+    # Parse machines
+    lines = [line.split() for line in data.splitlines()]
+    machines = [(get_joltages(line[-1]), get_buttonsB(line[1:-1], len(line[0])-2)) for line in lines]
+    counter:int = 0
+
+    # Solve machines
+    for i,machine in enumerate(machines):
+        # Initialize machine
+        goal, buttons = machine
+        jolts, count = [0 for _ in range(len(goal))], 0
+        queue = [(jolts, count)]
+        history = {tuple(j for j in jolts)}
+
+        # Solve machine
+        while queue:
+            jolts, count = queue.pop(0)
+            # Solution found, stop queue
+            if jolts == goal:
+                counter += count
+                ic(i,counter)
+                break
+            # Solution not found, add states from pressing each button to queue
+            else:
+                for button in buttons:
+                    next = [j + b for j,b in zip(jolts, button)]
+                    if all(lambda n,g: n <= g for n,g in zip(next,goal)) and tuple(j for j in next) not in history:
+                        history.add(tuple(j for j in next))
+                        queue.append((next,count+1))
+                        # ic(next,count)
+    return counter
 
 
 if __name__ == "__main__":
