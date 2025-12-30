@@ -9,3 +9,4 @@ pythonic-data-structures==0.2.1
 regex==2024.11.6
 shapely==2.1.2
 sympy==1.13.3
+z3-solver==4.15.4.0
