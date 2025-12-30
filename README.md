@@ -3,8 +3,8 @@
 [![Update README ⭐](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml/badge.svg?branch=main)](https://github.com/colematt/advent-code/actions/workflows/update-readme.yml)
 ![Current year](https://img.shields.io/badge/year%20🎄-2025-blue)
 ![Current day](https://img.shields.io/badge/day%20📅-30-blue)
-![This year's stars](https://img.shields.io/badge/stars%20⭐-21-yellow)
-![This year's completed days](https://img.shields.io/badge/days%20completed-10-red)
+![This year's stars](https://img.shields.io/badge/stars%20⭐-22-yellow)
+![This year's completed days](https://img.shields.io/badge/days%20completed-11-red)
 
 ## Setup
 
