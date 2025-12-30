@@ -2,11 +2,9 @@
 
 from aocd import data, submit
 from icecream import ic
-ic.disable()
 from collections import defaultdict
-import functools
 
-testdata = """aaa: you hhh
+testdataA = """aaa: you hhh
 you: bbb ccc
 bbb: ddd eee
 ccc: ddd eee fff
@@ -18,30 +16,32 @@ hhh: ccc fff iii
 iii: out
 """
 
-def count_paths(device:str, mapping: dict[str,list[str]]) -> int:
-    if device == "you":
-        return 1
-    else:
-        return sum([count_paths(source, mapping) for source in mapping[device]])
-
-def solveA(data: str) -> int | None:
+def solveA(data: str) -> int:    
     # Parse data successors mapping
     successors = dict()
     for line in data.splitlines():
         key = line.split()[0].rstrip(":")
         values = tuple(val for val in line.split()[1:])
         successors[key] = values
-    ic(successors)
-
+        
     # Invert successors mapping in predecessors
     predecessors = defaultdict(list)
     for key in successors:
             for val in successors[key]:
                 predecessors[val].append(key)
-    ic(predecessors)
 
-    return(count_paths("out", predecessors))
+    # Build path memo table
+    devices:set[str] = set(predecessors.keys()) | set(successors.keys())
+    paths:dict[str,int|None] = {key:None for key in devices}
+    paths["you"] = 1
+
+    # Calculate shortest path table
+    def count_paths(device:str) -> int:
+        if paths[device] == None:
+            paths[device] = sum([count_paths(source) for source in predecessors[device]])
+        return paths[device] # pyright: ignore[reportReturnType]
+    return(count_paths("out"))
 
 if __name__ == "__main__":
-    assert solveA(testdata) == 5
-    # submit(str(solveA(data)), part='a')
+    assert solveA(testdataA) == 5
+    submit(str(solveA(data)), part='a')
