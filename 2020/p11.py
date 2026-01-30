@@ -1,9 +1,23 @@
 #!/usr/bin/env python3
 
+from aocd import data, submit
+from icecream import ic
 from collections import Counter
 import copy
 import itertools
+ic.disable()
 
+testdata = """L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL
+"""
 
 def getAdjacent(grid, row, col, strict=True):
     """
@@ -127,46 +141,26 @@ def printGrid(grid):
     cg = countGrid(grid)
     print("Empty: %i Occupied: %i Floor: %i" % (cg['L'], cg['#'], cg['.']))
 
+def solveA(data:str) -> int:
+    startGrid = [[col for col in row.strip()] for row in data.splitlines()]
+    prevGrid = None
+    currGrid = copy.deepcopy(startGrid)
+    while currGrid != prevGrid:
+        prevGrid = currGrid
+        currGrid = nextGrid(prevGrid)
+    return countGrid(currGrid)['#']
 
-def main():
-    with open('inputs/input11-test.txt', 'r') as fin:
-        startGrid = [[col for col in row.strip()] for row in fin.readlines()]
-
-        #### PART 1 ####
-        prevGrid = None
-        currGrid = copy.deepcopy(startGrid)
-        while currGrid != prevGrid:
-            prevGrid = currGrid
-            currGrid = nextGrid(prevGrid)
-        assert countGrid(currGrid)['#'] == 37
-
-        #### PART 2 ####
-        prevGrid = None
-        currGrid = copy.deepcopy(startGrid)
-        while currGrid != prevGrid:
-            prevGrid = currGrid
-            currGrid = nextGrid(prevGrid, strict=False)
-        assert countGrid(currGrid)['#'] == 26
-
-    with open('inputs/input11.txt', 'r') as fin:
-        startGrid = [[col for col in row.strip()] for row in fin.readlines()]
-
-        #### PART 1 ####
-        prevGrid = None
-        currGrid = copy.deepcopy(startGrid)
-        while currGrid != prevGrid:
-            prevGrid = currGrid
-            currGrid = nextGrid(prevGrid)
-        print(countGrid(currGrid)['#'])
-
-        #### PART 2 ####
-        prevGrid = None
-        currGrid = copy.deepcopy(startGrid)
-        while currGrid != prevGrid:
-            prevGrid = currGrid
-            currGrid = nextGrid(prevGrid, strict=False)
-        print(countGrid(currGrid)['#'])
-
+def solveB(data:str) -> int:
+    startGrid = [[col for col in row.strip()] for row in data.splitlines()]
+    prevGrid = None
+    currGrid = copy.deepcopy(startGrid)
+    while currGrid != prevGrid:
+        prevGrid = currGrid
+        currGrid = nextGrid(prevGrid, strict=False)
+    return countGrid(currGrid)['#']
 
 if __name__ == "__main__":
-    main()
+    assert solveA(testdata) == 37
+    submit(str(solveA(data)), part='a')
+    assert solveB(testdata) == 26
+    submit(str(solveB(data)), part='b')
