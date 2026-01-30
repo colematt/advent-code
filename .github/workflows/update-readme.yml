@@ -16,6 +16,7 @@ jobs:
         with:
           userid: 867739
           session: ${{ secrets.AOC_SESSION }}
+          year: 2025
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update README stars
