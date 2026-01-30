@@ -3,8 +3,8 @@
 from functools import cache
 from aocd import data, submit
 from icecream import ic
+ic.disable()
 from itertools import pairwise
-from more_itertools import before_and_after
 
 testdata = """16
 10
