@@ -2,10 +2,10 @@
 
 from aocd import data, submit
 from icecream import ic
+ic.disable()
 from collections import Counter
 import copy
 import itertools
-ic.disable()
 
 testdata = """L.LL.LL.LL
 LLLLLLL.LL
