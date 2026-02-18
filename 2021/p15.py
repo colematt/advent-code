@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-import aocd
+from aocd import data, submit
 from icecream import ic 
 from functools import partial
 from itertools import filterfalse
 from operator import getitem,setitem
 from DataStructures.AbstractDataStructures import DuplicatePriorityQueue
 
-TEST_DATA = """1163751742
+testdata = """1163751742
 1381373672
 2136511328
 3694931569
@@ -28,8 +28,10 @@ def strGraph(graph):
 	return "\n".join(
 		"".join(str(col) for col in row) for row in graph)
 
+
 def parse(data):
 	return [[int(col) for col in row] for row in data.splitlines()]
+
 
 def expand(graph):
 	"""
@@ -47,6 +49,7 @@ def expand(graph):
 	
 	return expanded
 
+
 def neighbors(graph,row,col):
 	"""
 	Return a list of index 2-tuples of neighboring cells in
@@ -54,6 +57,7 @@ def neighbors(graph,row,col):
 	"""
 	return filterfalse(lambda c: c[0] < 0 or c[1] < 0 or c[0] >= len(graph) or c[1] >= len(graph[c[0]]),
 		[(row+r, col+c) for r,c in ((-1,0),(1,0),(0,-1),(0,1))])
+
 
 def explore(graph, source):
 	"""
@@ -71,11 +75,11 @@ def explore(graph, source):
 
 	# Set dist[source] to 0, all others to maxpri
 	dist = [[maxpri for _ in range(ncols)] for _ in range(nrows)]
-	setter(dist,*source,0)
+	setter(dist,*source,0) # pyright: ignore[reportCallIssue]
 
 	# Set prev[source] to tuple(), all others to None
 	prev = [[None for _ in range(ncols)] for _ in range(nrows)]
-	setter(prev,*source,tuple())
+	setter(prev,*source,tuple()) # pyright: ignore[reportCallIssue]
 
 	# For each cell in graph, add to priority queue Q, priority=dist[cell]
 	Q = DuplicatePriorityQueue(reverse=True)
@@ -90,9 +94,9 @@ def explore(graph, source):
 		u = Q.dequeue()
 
 		# For each neighbor v of u:
-		for v in neighbors(graph,*u):
+		for v in neighbors(graph,*u): # pyright: ignore[reportOptionalIterable]
 			# Calculate alt = dist[u] + graph[v]
-			alt = getter(dist,*u) + getter(graph,*v)
+			alt = getter(dist,*u) + getter(graph,*v) # pyright: ignore[reportOptionalIterable, reportOperatorIssue]
 			
 			# Update if alt has found a better path
 			if alt < getter(dist,*v):
@@ -102,28 +106,21 @@ def explore(graph, source):
 
 	return dist,prev
 
-def test():
-	# Part A
-	graph = parse(TEST_DATA)
-	dist, prev = explore(graph,(0,0))
-	assert dist[-1][-1] == 40
-	
-	# Part B
-	graph = expand(graph)
-	dist, prev = explore(graph,(0,0))
-	assert dist[-1][-1] == 315
 
-def main():
-	# Part A
-	graph = parse(aocd.data)
+def solveA(data:str) -> int:
+	graph = parse(data)
 	dist, prev = explore(graph,(0,0))
-	aocd.submit(dist[-1][-1], part='a')
+	return dist[-1][-1]
 
-	# Part B
-	graph = expand(graph)
+
+def solveB(data:str) -> int:
+	graph = expand(parse(data))
 	dist, prev = explore(graph,(0,0))
-	aocd.submit(dist[-1][-1], part='b')
+	return dist[-1][-1]
+
 	
 if __name__ == '__main__':
-	test()
-	main()
+	assert solveA(testdata) == 40
+	submit(str(solveA(data)), part='a')
+	assert solveB(testdata) == 315
+	submit(str(solveB(data)), part='b')
